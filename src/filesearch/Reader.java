@@ -30,19 +30,19 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
  *
  */
 public class Reader {
- 
+
 	/**
 	 * Search for specific text in Zip and Jar archives
 	 * 
 	 * @return true if any file inside archives contains the searching text
 	 */
-	private boolean zipJarReader(File file, String textToSearch) {
+	boolean zipJarReader(File file, String textToSearch) {
 		ZipFile zipFile = null;
 		Scanner sc = null;
 		InputStream stream = null;
 		boolean containsText = false;
 		try {
-			zipFile = new ZipFile(file,Charset.forName("Cp437"));
+			zipFile = new ZipFile(file, Charset.forName("Cp437"));
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
 				if (containsText) {
@@ -56,19 +56,21 @@ public class Reader {
 					continue;
 				}
 				while (sc.hasNextLine()) {
-					if (sc.nextLine().contains(textToSearch)) { // check for "textToSearch" at every line
-						
+					if (sc.nextLine().contains(textToSearch)) { // check for
+																// "textToSearch"
+																// at every line
+
 						containsText = true;
 						break;
 					}
 				}
 			}
 		} catch (ZipException e) {
-			System.err.println("ERROR OPENING archive FILE : "+file.getName() );
-			//e.printStackTrace();
+			System.err.println("ERROR OPENING archive FILE : " + file.getName());
+			// e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Error occurred during the work with "+ file.getName());
-			//e.printStackTrace();
+			System.err.println("Error occurred during the work with " + file.getName());
+			// e.printStackTrace();
 		} finally {
 			// clean up I/O streams
 			if (zipFile != null || sc != null) {
@@ -126,7 +128,9 @@ public class Reader {
 				InputStream stream = innerZipFile.getInputStream(zipEntry);
 				sc = new Scanner(stream);
 				while (sc.hasNextLine()) {
-					if (sc.nextLine().contains(textToSearch)) { // check for "textToSearch" at every line
+					if (sc.nextLine().contains(textToSearch)) { // check for
+																// "textToSearch"
+																// at every line
 						containsText = true;
 						break;
 					}
@@ -137,8 +141,8 @@ public class Reader {
 			}
 
 		} catch (IOException e) {
-			System.err.println("ERROR OPENING inner ZIP FILE :"+ innerZipFileEntryName);
-		//	e.printStackTrace();
+			System.err.println("ERROR OPENING inner ZIP FILE :" + innerZipFileEntryName);
+			// e.printStackTrace();
 		} finally {
 			// clean up I/O streams
 			try {
@@ -175,7 +179,7 @@ public class Reader {
 	 *            - text to search
 	 * @return true if text in file contains the searched text
 	 */
-	private boolean txtReader(File file, String textToSearch) {
+	 boolean txtReader(File file, String textToSearch) {
 		BufferedReader br = null;
 		FileReader fr = null;
 		boolean containsText = false;
@@ -186,15 +190,17 @@ public class Reader {
 
 			String sCurrentLine;
 			while ((sCurrentLine = br.readLine()) != null) {
-				if (sCurrentLine.contains(textToSearch)) { // check for "textToSearch" at every line
+				if (sCurrentLine.contains(textToSearch)) { // check for
+															// "textToSearch" at
+															// every line
 					containsText = true;
 					break;
 				}
 			}
 
 		} catch (IOException e) {
-			System.err.println("Error occurred during the work with "+ file.getName());
-			//e.printStackTrace();
+			System.err.println("Error occurred during the work with " + file.getName());
+			// e.printStackTrace();
 
 		} finally {
 			// clean up I/O streams
@@ -217,15 +223,16 @@ public class Reader {
 	}
 
 	/**
-	 * Search for the specific text in the file Supported Formats : {.doc}
-	 * Using Apache POI tools
+	 * Search for the specific text in the file Supported Formats : {.doc} Using
+	 * Apache POI tools
+	 * 
 	 * @param file
 	 *            - file.doc
 	 * @param searchedText
 	 *            - text to search
 	 * @return true if text in file contains the searched text
 	 */
-	private boolean readDocFile(File file, String searchedText) {
+	 private boolean readDocFile(File file, String searchedText) {
 		boolean containsText = false;
 		FileInputStream fis = null;
 		HWPFDocument doc = null;
@@ -239,16 +246,17 @@ public class Reader {
 
 			String[] paragraphs = we.getParagraphText();
 
-			for (String para : paragraphs) {  
-				if (para.contains(searchedText)) { // check for "textToSearch" at every line
+			for (String para : paragraphs) {
+				if (para.contains(searchedText)) { // check for "textToSearch"
+													// at every line
 					containsText = true;
 					break;
 				}
 			}
 			fis.close();
 		} catch (Exception e) {
-			System.err.println("Error occurred during the work with "+ file.getName());
-			//e.printStackTrace();
+			System.err.println("Error occurred during the work with " + file.getName());
+			// e.printStackTrace();
 		} finally {
 			// clean up I/O streams
 			if (fis != null) {
@@ -284,13 +292,14 @@ public class Reader {
 	/**
 	 * Search for the specific text in the file Supported Formats : {.docx}
 	 * Using Apache POI tools
+	 * 
 	 * @param file
 	 *            - file.docx
 	 * @param searchedText
 	 *            - text to search
 	 * @return true if text in file contains the searched text
 	 */
-	private boolean readDocxFile(File file, String searchedText) {
+	 private boolean readDocxFile(File file, String searchedText) {
 		boolean containsText = false;
 		FileInputStream fis = null;
 		XWPFDocument document = null;
@@ -299,14 +308,16 @@ public class Reader {
 			document = new XWPFDocument(fis);
 			List<XWPFParagraph> paragraphs = document.getParagraphs();
 			for (XWPFParagraph para : paragraphs) {
-				if (para.getText().contains(searchedText)) { // check for "textToSearch" at every line
+				if (para.getText().contains(searchedText)) { // check for
+																// "textToSearch"
+																// at every line
 					containsText = true;
 					break;
 				}
 			}
 		} catch (Exception e) {
-			System.err.println("Error occurred during the work with "+ file.getName());
-			//e.printStackTrace();
+			System.err.println("Error occurred during the work with " + file.getName());
+			// e.printStackTrace();
 		} finally {
 			// clean up I/O streams
 			if (fis != null) {
@@ -393,6 +404,5 @@ public class Reader {
 
 		return containsText;
 	}
-	
 
 }

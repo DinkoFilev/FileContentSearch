@@ -28,6 +28,7 @@ public class Main {
 		String path = args[0];
 		String textToSearch = args[1];
 		TextSearch search = new TextSearch(path,textToSearch);
+	//	TextSearch search = new TextSearch("test","TEST");
 	
 
 		System.out.println("Processing time : " + (System.currentTimeMillis() - start) + "ms");
