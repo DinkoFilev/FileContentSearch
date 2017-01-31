@@ -20,3 +20,5 @@ java -jar FileContentSearch.jar /home/anywhere "I WANT TO SEARCH THIS TEXT"
 
 first argument is directory
 second is the text that we are looking for
+
+Folder with test files is available
